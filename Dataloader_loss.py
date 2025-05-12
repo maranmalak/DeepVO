@@ -97,7 +97,7 @@ class KITTI_Data(Dataset):
         images = [np.concatenate((images[k],images[k+1]),axis = 0) for k in range(len(images)-1)]
                 
         
-        #prepare ground truth poses data
+        #prepare ground truth pose_GT data
 
         #Stack the images for seqs
         return np.stack(images,axis = 0), self.GT[index:index+par.seq_len,:]

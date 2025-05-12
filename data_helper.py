@@ -18,7 +18,16 @@ def get_data_info(folder_list, seq_len_range, overlap, sample_times=1, pad_y=Fal
     for folder in folder_list:
         start_t = time.time()
         poses = np.load('{}{}.npy'.format(par.pose_dir, folder))  # (n_images, 6)
-        fpaths = glob.glob('{}{}/*.png'.format(par.image_dir, folder))
+        #search_path = '{}{}/*.png'.format(par.image_dir, folder)
+        #print("Searching for files in:", search_path)
+        folder_path = os.path.join(par.image_dir, folder)  # Correctly join paths
+        print("Searching in:", folder_path)  # Debug print
+        fpaths = glob.glob(os.path.join(folder_path, "*.png"))
+        #fpaths = glob.glob('{}{}/*.png'.format(par.image_dir, folder))
+        print("poses in get data : ", poses)
+        print("fpaths in getdata : ", fpaths)
+        print("folder :", folder)
+
         fpaths.sort()
         # Fixed seq_len
         if seq_len_range[0] == seq_len_range[1]:
@@ -198,6 +207,8 @@ class ImageSequenceDataset(Dataset):
     def __getitem__(self, index):
         raw_groundtruth = np.hsplit(self.groundtruth_arr[index], np.array([6]))	
         groundtruth_sequence = raw_groundtruth[0]
+        if raw_groundtruth[1].shape[0] == 0:
+            raise ValueError(f"⚠️ Empty ground truth at index {index}")
         groundtruth_rotation = raw_groundtruth[1][0].reshape((3, 3)).T # opposite rotation of the first frame
         groundtruth_sequence = torch.FloatTensor(groundtruth_sequence)
         # groundtruth_sequence[1:] = groundtruth_sequence[1:] - groundtruth_sequence[0:-1]  # get relative pose w.r.t. previois frame 

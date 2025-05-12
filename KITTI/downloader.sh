@@ -1,17 +1,7 @@
 #!/bin/bash
 
 files=(
-00:2011_10_03_drive_0027
-01:2011_10_03_drive_0042
-02:2011_10_03_drive_0034
 03:2011_09_26_drive_0067
-04:2011_09_30_drive_0016
-05:2011_09_30_drive_0018
-06:2011_09_30_drive_0020
-07:2011_09_30_drive_0027
-08:2011_09_30_drive_0028
-09:2011_09_30_drive_0033
-10:2011_09_30_drive_0034
 )
 echo 'start downloading trained model......'
 wget 'https://www.polybox.ethz.ch/index.php/s/90OlHg6KWBzG6gR'
